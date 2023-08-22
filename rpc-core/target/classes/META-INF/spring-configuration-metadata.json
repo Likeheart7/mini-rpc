@@ -1,0 +1,28 @@
+{
+  "groups": [
+    {
+      "name": "rpc",
+      "type": "com.chenx.rpc.common.RpcProperties",
+      "sourceType": "com.chenx.rpc.common.RpcProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "rpc.registry-addr",
+      "type": "java.lang.String",
+      "sourceType": "com.chenx.rpc.common.RpcProperties"
+    },
+    {
+      "name": "rpc.registry-type",
+      "type": "java.lang.String",
+      "sourceType": "com.chenx.rpc.common.RpcProperties"
+    },
+    {
+      "name": "rpc.service-port",
+      "type": "java.lang.Integer",
+      "sourceType": "com.chenx.rpc.common.RpcProperties",
+      "defaultValue": 0
+    }
+  ],
+  "hints": []
+}
