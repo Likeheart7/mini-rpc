@@ -31,6 +31,7 @@ public class RpcProvider implements InitializingBean, BeanPostProcessor {
     private final int serverPort;
     private final RegistryService serviceRegistry;
 
+//    存放服务初始化后所对应的bean，起到缓存的作用，在处理RPC请求时可以直接通过这个map拿到的对应的服务调用
     private final Map<String, Object> rpcServiceMap = new HashMap<>();
 
     public RpcProvider(int serverPort, RegistryService registryService){
@@ -78,6 +79,13 @@ public class RpcProvider implements InitializingBean, BeanPostProcessor {
         }
     }
 
+    /**
+     * 对所有初始化完成后的 Bean 进行处理，将所有被@RpcService修饰的bean放到map中
+     * @param bean  当前处理的bean
+     * @param beanName  当前处理的bean的名称
+     * @return
+     * @throws BeansException
+     */
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         RpcService rpcService = bean.getClass().getAnnotation(RpcService.class);

@@ -15,6 +15,7 @@ import javax.annotation.Resource;
  * @create 2023-08-22 15:19
  */
 @Configuration
+//通过下面这个注解将RpcProvider注入到容器中
 @EnableConfigurationProperties(RpcProperties.class)
 public class RpcProviderAutoConfiguration {
     @Resource
