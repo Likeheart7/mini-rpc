@@ -1,4 +1,0 @@
-com\chenx\rpc\provider\facade\HelloFacadeImpl.class
-com\chenx\rpc\provider\annotation\RpcService.class
-com\chenx\rpc\provider\RpcProviderApplication.class
-com\chenx\rpc\provider\RpcProviderAutoConfiguration.class
