@@ -1,4 +1,4 @@
-package com.chenx.rpc.protocol;
+package com.chenx.rpc.common;
 
 import java.io.Serializable;
 
