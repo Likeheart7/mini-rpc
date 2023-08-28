@@ -99,7 +99,7 @@ public class RpcProvider implements InitializingBean, BeanPostProcessor {
                 serviceMeta.setServiceName(serviceName);
                 serviceMeta.setServiceVersion(serviceVersion);
 
-                serviceRegistry.register(serviceMeta);
+                serviceRegistry.register(serviceMeta);      //注册服务
                 rpcServiceMap.put(RpcServiceHelper.buildServiceKey(serviceName, serviceVersion), bean);
             } catch (Exception e) {
                 log.error("fail to register service {}#{}", serviceName, serviceVersion, e);
