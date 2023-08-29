@@ -51,7 +51,7 @@ public class RpcConsumerPostProcessor implements ApplicationContextAware, BeanCl
 //                通过类加载器，和类名加载该类的Class实例。
                 Class<?> clazz = ClassUtils.resolveClassName(beanClassName, this.beanClassLoader);
 //                doWithFields()作用是对类内的所有域调用传入的函数
-                ReflectionUtils.doWithFields(clazz, this::pareRpcReference);
+                ReflectionUtils.doWithFields(clazz, this::parseRpcReference);
             }
         }
 //        将rpcRefBeanDefinitions中所有的bean定义信息注册到beanDefinitionMap中(即容器存放bean定义的地方)
@@ -65,7 +65,7 @@ public class RpcConsumerPostProcessor implements ApplicationContextAware, BeanCl
         });
     }
 
-    private void pareRpcReference(Field field) {
+    private void parseRpcReference(Field field) {
         RpcReference annotation = AnnotationUtils.getAnnotation(field, RpcReference.class);
 //        如果一个域被@RpcReference修饰
         if (annotation != null) {

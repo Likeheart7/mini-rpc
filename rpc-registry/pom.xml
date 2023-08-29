@@ -16,6 +16,8 @@
             <groupId>com.chenx</groupId>
             <artifactId>rpc-core</artifactId>
         </dependency>
+        <!--Zookeeper 常用的开源客户端工具包有 ZkClient 和 Apache Curator，
+        目前都推荐使用 Apache Curator 客户端，相比之下更加易用-->
         <dependency>
             <groupId>org.apache.curator</groupId>
             <artifactId>curator-framework</artifactId>

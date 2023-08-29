@@ -18,6 +18,10 @@
         </dependency>
         <dependency>
             <groupId>com.chenx</groupId>
+            <artifactId>rpc-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.chenx</groupId>
             <artifactId>rpc-facade</artifactId>
         </dependency>
         <dependency>

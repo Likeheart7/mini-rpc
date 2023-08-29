@@ -5,6 +5,7 @@ import com.chenx.rpc.common.ServiceMeta;
 import java.io.IOException;
 
 /**
+ * 通用注册中心接口，包括注册中心应该提供的功能
  * @author chenx
  * @create 2023-08-22 16:42
  */

@@ -1,6 +1,11 @@
 package com.chenx.rpc.consumer;
 
+import com.chenx.rpc.provider.registry.RegistryFactory;
+import com.chenx.rpc.provider.registry.RegistryService;
+import com.chenx.rpc.provider.registry.RegistryType;
 import org.springframework.beans.factory.FactoryBean;
+
+import java.lang.reflect.Proxy;
 
 /**
  * @author chenx
@@ -15,6 +20,12 @@ public class RpcReferenceBean implements FactoryBean<Object> {
 
     private String registryAddr;
 
+    public void setTimeout(long timeout) {
+        this.timeout = timeout;
+    }
+
+    private long timeout;
+
     private Object object;
 
     @Override
@@ -28,7 +39,13 @@ public class RpcReferenceBean implements FactoryBean<Object> {
     }
 
     public void init() throws Exception {
-//        TODO：生成动态代理对象并赋值给object
+        RegistryService registryService = RegistryFactory.getInstance(this.registryAddr, RegistryType.valueOf(this.registryType));
+        this.object = Proxy.newProxyInstance(
+                interfaceClass.getClassLoader(),
+                new Class<?>[]{interfaceClass},
+                new RpcInvokerProxy(serviceVersion, timeout, registryService)
+        );
+
     }
 
 //    下面的方法都是setter

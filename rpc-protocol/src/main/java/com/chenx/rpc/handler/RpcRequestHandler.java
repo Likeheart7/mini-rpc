@@ -49,6 +49,7 @@ public class RpcRequestHandler extends SimpleChannelInboundHandler<MiniRpcProtoc
         });
     }
 
+//  通过request中的参数，从rpcServiceMap找到对应的bean，通过FastClass调用其方法
     private Object handle(MiniRpcRequest request) throws Throwable {
         String serviceKey = RpcServiceHelper.buildServiceKey(request.getClassName(), request.getServiceVersion());
         Object serviceBean = rpcServiceMap.get(serviceKey);

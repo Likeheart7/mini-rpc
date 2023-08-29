@@ -2,6 +2,7 @@ package com.chenx.rpc.provider.registry;
 
 import com.chenx.rpc.common.RpcServiceHelper;
 import com.chenx.rpc.common.ServiceMeta;
+import com.chenx.rpc.provider.registry.loadbalance.ZkConsistentHashLoadBalancer;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
@@ -12,6 +13,8 @@ import org.apache.curator.x.discovery.details.JsonInstanceSerializer;
 import org.springframework.util.backoff.ExponentialBackOff;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author chenx
@@ -23,6 +26,7 @@ public class ZookeeperRegistryService implements RegistryService{
     public static final int MAX_RETIRES = 3;
     public static final String ZK_BASE_PATH = "/mini_rpc";
 
+//    服务注册需要服务发现
     public final ServiceDiscovery<ServiceMeta> serviceDiscovery;
 
     public ZookeeperRegistryService(String registryAddr) throws Exception {
@@ -34,11 +38,12 @@ public class ZookeeperRegistryService implements RegistryService{
                 .serializer(serializer)
                 .basePath(ZK_BASE_PATH)
                 .build();
+//        启动 服务的注册和发现 的功能
         this.serviceDiscovery.start();
     }
     @Override
     public void register(ServiceMeta serviceMeta) throws Exception {
-//        将服务注册到注册中心去
+//        将服务注册发布到注册中心去
         ServiceInstance<ServiceMeta> serviceInstance = ServiceInstance.<ServiceMeta>builder()
 //                通过ServiceHelper生成key
                 .name(RpcServiceHelper.buildServiceKey(serviceMeta.getServiceName(), serviceMeta.getServiceVersion()))
@@ -46,6 +51,7 @@ public class ZookeeperRegistryService implements RegistryService{
                 .port(serviceMeta.getServicePort())
                 .payload(serviceMeta)
                 .build();
+//        真正注册服务
         serviceDiscovery.registerService(serviceInstance);
     }
 
@@ -56,6 +62,11 @@ public class ZookeeperRegistryService implements RegistryService{
 
     @Override
     public ServiceMeta discovery(String serviceName, int invokerHashCode) throws Exception {
+        Collection<ServiceInstance<ServiceMeta>> serviceInstances = serviceDiscovery.queryForInstances(serviceName);
+        ServiceInstance<ServiceMeta> instance = new ZkConsistentHashLoadBalancer().select((List<ServiceInstance<ServiceMeta>>) serviceInstances, invokerHashCode);
+        if (instance != null) {
+            return instance.getPayload();
+        }
         return null;
     }
 
