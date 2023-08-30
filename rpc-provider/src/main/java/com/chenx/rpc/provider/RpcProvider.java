@@ -1,7 +1,10 @@
 package com.chenx.rpc.provider;
 
+import com.chenx.rpc.coder.MiniRpcDecoder;
+import com.chenx.rpc.coder.MiniRpcEncoder;
 import com.chenx.rpc.common.RpcServiceHelper;
 import com.chenx.rpc.common.ServiceMeta;
+import com.chenx.rpc.handler.RpcRequestHandler;
 import com.chenx.rpc.provider.annotation.RpcService;
 import com.chenx.rpc.provider.registry.RegistryService;
 import io.netty.bootstrap.ServerBootstrap;
@@ -66,7 +69,9 @@ public class RpcProvider implements InitializingBean, BeanPostProcessor {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ch.pipeline()
-                                    .addLast();
+                                    .addLast(new MiniRpcEncoder())
+                                    .addLast(new MiniRpcDecoder())
+                                    .addLast(new RpcRequestHandler(rpcServiceMap));
                         }
                     })
                     .childOption(ChannelOption.SO_KEEPALIVE, true);
