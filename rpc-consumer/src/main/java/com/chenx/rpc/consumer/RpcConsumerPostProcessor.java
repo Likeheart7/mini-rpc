@@ -31,6 +31,7 @@ import java.util.Map;
 public class RpcConsumerPostProcessor implements ApplicationContextAware, BeanClassLoaderAware, BeanFactoryPostProcessor {
     private ApplicationContext applicationContext;
     private ClassLoader beanClassLoader;
+//    用来缓存被操作的beanDefinition
     private final Map<String, BeanDefinition> rpcRefBeanDefinitions = new LinkedHashMap<>();
 
     /**

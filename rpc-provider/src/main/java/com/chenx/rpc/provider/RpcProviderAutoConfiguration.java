@@ -22,11 +22,13 @@ public class RpcProviderAutoConfiguration {
     private RpcProperties rpcProperties;
 
     /**
-     * 在容器中注册了一个RpcProvider实例，名称是init? todo
+     * 在容器中注册了一个RpcProvider实例，名称是init
      */
     @Bean
     public RpcProvider init() throws Exception {
+//        通过配置文件中配置的属性信息获取注册类型 zk / eureka
         RegistryType registryType = RegistryType.valueOf(rpcProperties.getRegistryType());
+//        根据注册类型，通过RegistryFactory获取注册服务实例
         RegistryService registryService = RegistryFactory.getInstance(this.rpcProperties.getRegistryAddr(), registryType);
         return new RpcProvider(this.rpcProperties.getServicePort(), registryService);
     }
