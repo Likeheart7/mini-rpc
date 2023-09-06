@@ -63,6 +63,7 @@ public class RpcInvokerProxy implements InvocationHandler {
         rpcConsumer.sendRequest(protocol, this.registryService);
 //        todo: hold request by threadLocal
 
-        return future.getPromise().get(future.getTimeout(), TimeUnit.MILLISECONDS).getData();
+        MiniRpcResponse response = future.getPromise().get(future.getTimeout(), TimeUnit.MILLISECONDS);
+        return response.getData();
     }
 }
