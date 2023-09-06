@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
 @Autowired
 public @interface RpcReference {
 //    服务版本
-    String serviceVersion() default "1.0";
+    String serviceVersion() default "1.0.0";
 //    注册中心类型
     String registryType() default "ZOOKEEPER";
 //    注册地址
