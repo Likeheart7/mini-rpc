@@ -32,10 +32,11 @@ public class RpcRequestHandler extends SimpleChannelInboundHandler<MiniRpcProtoc
         RpcRequestProcessor.submitRequest(() -> {
             MiniRpcProtocol<MiniRpcResponse> resProtocol = new MiniRpcProtocol<>();
             MiniRpcResponse response = new MiniRpcResponse();
-            MsgHeader header = resProtocol.getHeader();
+            MsgHeader header = protocol.getHeader();
             header.setMsgType((byte) MsgType.RESPONSE.getType());
             try {
-                Object result = handle(protocol.getBody());
+                MiniRpcRequest body = protocol.getBody();
+                Object result = handle(body);
                 response.setData(result);
                 header.setStatus((byte) MsgStatus.SUCCESS.getCode());
                 resProtocol.setHeader(header);
